@@ -787,3 +787,253 @@ Ensure that your `kafka-producer` and `kafka-consumer` `pom.xml` files include t
    ```
 
 This setup ensures that both the producer and consumer applications use the shared Kafka configuration from the `kafka-common` module, promoting consistency and reducing duplication.
+
+
+
+Logs
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2024-06-07T13:31:08.026+05:30  INFO 12164 --- [           main] c.g.k.KafkaProducerApplication           : Starting KafkaProducerApplication using Java 17.0.11 with PID 12164 (D:\MPS\New folder (2)\kafka-Producer\target\classes started by 550003596 in D:\MPS\New folder (2)\kafka-Producer)
+2024-06-07T13:31:08.031+05:30  INFO 12164 --- [           main] c.g.k.KafkaProducerApplication           : No active profile set, falling back to 1 default profile: "default"
+2024-06-07T13:31:08.855+05:30  INFO 12164 --- [           main] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values: 
+	auto.include.jmx.reporter = true
+	bootstrap.controllers = []
+	bootstrap.servers = [localhost:9092]
+	client.dns.lookup = use_all_dns_ips
+	client.id = 
+	connections.max.idle.ms = 300000
+	default.api.timeout.ms = 60000
+	enable.metrics.push = true
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+
+2024-06-07T13:31:08.907+05:30 DEBUG 12164 --- [           main] o.a.k.c.a.i.AdminMetadataManager         : [AdminClient clientId=adminclient-1] Setting bootstrap cluster metadata Cluster(id = null, nodes = [localhost:9092 (id: -1 rack: null)], partitions = [], controller = null).
+2024-06-07T13:31:09.139+05:30  INFO 12164 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.0
+2024-06-07T13:31:09.139+05:30  INFO 12164 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 2ae524ed625438c5
+2024-06-07T13:31:09.139+05:30  INFO 12164 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1717747269138
+2024-06-07T13:31:09.141+05:30 DEBUG 12164 --- [           main] o.a.k.clients.admin.KafkaAdminClient     : [AdminClient clientId=adminclient-1] Kafka admin client initialized
+2024-06-07T13:31:09.141+05:30 DEBUG 12164 --- [| adminclient-1] o.a.k.clients.admin.KafkaAdminClient     : [AdminClient clientId=adminclient-1] Thread starting
+2024-06-07T13:31:09.144+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.ClientUtils     : Resolved host localhost as 127.0.0.1
+2024-06-07T13:31:09.145+05:30 DEBUG 12164 --- [| adminclient-1] o.a.k.clients.ClusterConnectionStates    : [AdminClient clientId=adminclient-1] Resolved host localhost to addresses [localhost/127.0.0.1]
+2024-06-07T13:31:09.145+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Initiating connection to node localhost:9092 (id: -1 rack: null) using address localhost/127.0.0.1
+2024-06-07T13:31:09.147+05:30 DEBUG 12164 --- [           main] o.a.k.clients.admin.KafkaAdminClient     : [AdminClient clientId=adminclient-1] Queueing Call(callName=describeTopics, deadlineMs=1717747329146, tries=0, nextAllowedTryMs=0) with a timeout 30000 ms from now.
+2024-06-07T13:31:09.155+05:30 DEBUG 12164 --- [| adminclient-1] o.apache.kafka.common.network.Selector   : [AdminClient clientId=adminclient-1] Created socket with SO_RCVBUF = 65536, SO_SNDBUF = 131072, SO_TIMEOUT = 0 to node -1
+2024-06-07T13:31:09.330+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Completed connection to node -1. Fetching API versions.
+2024-06-07T13:31:09.330+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Initiating API versions fetch from node -1.
+2024-06-07T13:31:09.345+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Sending API_VERSIONS request with header RequestHeader(apiKey=API_VERSIONS, apiVersion=3, clientId=adminclient-1, correlationId=0, headerVersion=2) and timeout 3600000 to node -1: ApiVersionsRequestData(clientSoftwareName='apache-kafka-java', clientSoftwareVersion='3.7.0')
+2024-06-07T13:31:09.370+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Received API_VERSIONS response from node -1 for request with header RequestHeader(apiKey=API_VERSIONS, apiVersion=3, clientId=adminclient-1, correlationId=0, headerVersion=2): ApiVersionsResponseData(errorCode=0, apiKeys=[ApiVersion(apiKey=0, minVersion=0, maxVersion=10), ApiVersion(apiKey=1, minVersion=0, maxVersion=16), ApiVersion(apiKey=2, minVersion=0, maxVersion=8), ApiVersion(apiKey=3, minVersion=0, maxVersion=12), ApiVersion(apiKey=4, minVersion=0, maxVersion=7), ApiVersion(apiKey=5, minVersion=0, maxVersion=4), ApiVersion(apiKey=6, minVersion=0, maxVersion=8), ApiVersion(apiKey=7, minVersion=0, maxVersion=3), ApiVersion(apiKey=8, minVersion=0, maxVersion=9), ApiVersion(apiKey=9, minVersion=0, maxVersion=9), ApiVersion(apiKey=10, minVersion=0, maxVersion=4), ApiVersion(apiKey=11, minVersion=0, maxVersion=9), ApiVersion(apiKey=12, minVersion=0, maxVersion=4), ApiVersion(apiKey=13, minVersion=0, maxVersion=5), ApiVersion(apiKey=14, minVersion=0, maxVersion=5), ApiVersion(apiKey=15, minVersion=0, maxVersion=5), ApiVersion(apiKey=16, minVersion=0, maxVersion=4), ApiVersion(apiKey=17, minVersion=0, maxVersion=1), ApiVersion(apiKey=18, minVersion=0, maxVersion=3), ApiVersion(apiKey=19, minVersion=0, maxVersion=7), ApiVersion(apiKey=20, minVersion=0, maxVersion=6), ApiVersion(apiKey=21, minVersion=0, maxVersion=2), ApiVersion(apiKey=22, minVersion=0, maxVersion=4), ApiVersion(apiKey=23, minVersion=0, maxVersion=4), ApiVersion(apiKey=24, minVersion=0, maxVersion=4), ApiVersion(apiKey=25, minVersion=0, maxVersion=3), ApiVersion(apiKey=26, minVersion=0, maxVersion=3), ApiVersion(apiKey=27, minVersion=0, maxVersion=1), ApiVersion(apiKey=28, minVersion=0, maxVersion=3), ApiVersion(apiKey=29, minVersion=0, maxVersion=3), ApiVersion(apiKey=30, minVersion=0, maxVersion=3), ApiVersion(apiKey=31, minVersion=0, maxVersion=3), ApiVersion(apiKey=32, minVersion=0, maxVersion=4), ApiVersion(apiKey=33, minVersion=0, maxVersion=2), ApiVersion(apiKey=34, minVersion=0, maxVersion=2), ApiVersion(apiKey=35, minVersion=0, maxVersion=4), ApiVersion(apiKey=36, minVersion=0, maxVersion=2), ApiVersion(apiKey=37, minVersion=0, maxVersion=3), ApiVersion(apiKey=38, minVersion=0, maxVersion=3), ApiVersion(apiKey=39, minVersion=0, maxVersion=2), ApiVersion(apiKey=40, minVersion=0, maxVersion=2), ApiVersion(apiKey=41, minVersion=0, maxVersion=3), ApiVersion(apiKey=42, minVersion=0, maxVersion=2), ApiVersion(apiKey=43, minVersion=0, maxVersion=2), ApiVersion(apiKey=44, minVersion=0, maxVersion=1), ApiVersion(apiKey=45, minVersion=0, maxVersion=0), ApiVersion(apiKey=46, minVersion=0, maxVersion=0), ApiVersion(apiKey=47, minVersion=0, maxVersion=0), ApiVersion(apiKey=48, minVersion=0, maxVersion=1), ApiVersion(apiKey=49, minVersion=0, maxVersion=1), ApiVersion(apiKey=50, minVersion=0, maxVersion=0), ApiVersion(apiKey=51, minVersion=0, maxVersion=0), ApiVersion(apiKey=56, minVersion=0, maxVersion=3), ApiVersion(apiKey=57, minVersion=0, maxVersion=1), ApiVersion(apiKey=58, minVersion=0, maxVersion=0), ApiVersion(apiKey=60, minVersion=0, maxVersion=1), ApiVersion(apiKey=61, minVersion=0, maxVersion=0), ApiVersion(apiKey=65, minVersion=0, maxVersion=0), ApiVersion(apiKey=66, minVersion=0, maxVersion=0), ApiVersion(apiKey=67, minVersion=0, maxVersion=0), ApiVersion(apiKey=68, minVersion=0, maxVersion=0)], throttleTimeMs=0, supportedFeatures=[], finalizedFeaturesEpoch=0, finalizedFeatures=[], zkMigrationReady=false)
+2024-06-07T13:31:09.402+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 has finalized features epoch: 0, finalized features: [], supported features: [], ZK migration ready: false, API versions: (Produce(0): 0 to 10 [usable: 10], Fetch(1): 0 to 16 [usable: 16], ListOffsets(2): 0 to 8 [usable: 8], Metadata(3): 0 to 12 [usable: 12], LeaderAndIsr(4): 0 to 7 [usable: 7], StopReplica(5): 0 to 4 [usable: 4], UpdateMetadata(6): 0 to 8 [usable: 8], ControlledShutdown(7): 0 to 3 [usable: 3], OffsetCommit(8): 0 to 9 [usable: 9], OffsetFetch(9): 0 to 9 [usable: 9], FindCoordinator(10): 0 to 4 [usable: 4], JoinGroup(11): 0 to 9 [usable: 9], Heartbeat(12): 0 to 4 [usable: 4], LeaveGroup(13): 0 to 5 [usable: 5], SyncGroup(14): 0 to 5 [usable: 5], DescribeGroups(15): 0 to 5 [usable: 5], ListGroups(16): 0 to 4 [usable: 4], SaslHandshake(17): 0 to 1 [usable: 1], ApiVersions(18): 0 to 3 [usable: 3], CreateTopics(19): 0 to 7 [usable: 7], DeleteTopics(20): 0 to 6 [usable: 6], DeleteRecords(21): 0 to 2 [usable: 2], InitProducerId(22): 0 to 4 [usable: 4], OffsetForLeaderEpoch(23): 0 to 4 [usable: 4], AddPartitionsToTxn(24): 0 to 4 [usable: 4], AddOffsetsToTxn(25): 0 to 3 [usable: 3], EndTxn(26): 0 to 3 [usable: 3], WriteTxnMarkers(27): 0 to 1 [usable: 1], TxnOffsetCommit(28): 0 to 3 [usable: 3], DescribeAcls(29): 0 to 3 [usable: 3], CreateAcls(30): 0 to 3 [usable: 3], DeleteAcls(31): 0 to 3 [usable: 3], DescribeConfigs(32): 0 to 4 [usable: 4], AlterConfigs(33): 0 to 2 [usable: 2], AlterReplicaLogDirs(34): 0 to 2 [usable: 2], DescribeLogDirs(35): 0 to 4 [usable: 4], SaslAuthenticate(36): 0 to 2 [usable: 2], CreatePartitions(37): 0 to 3 [usable: 3], CreateDelegationToken(38): 0 to 3 [usable: 3], RenewDelegationToken(39): 0 to 2 [usable: 2], ExpireDelegationToken(40): 0 to 2 [usable: 2], DescribeDelegationToken(41): 0 to 3 [usable: 3], DeleteGroups(42): 0 to 2 [usable: 2], ElectLeaders(43): 0 to 2 [usable: 2], IncrementalAlterConfigs(44): 0 to 1 [usable: 1], AlterPartitionReassignments(45): 0 [usable: 0], ListPartitionReassignments(46): 0 [usable: 0], OffsetDelete(47): 0 [usable: 0], DescribeClientQuotas(48): 0 to 1 [usable: 1], AlterClientQuotas(49): 0 to 1 [usable: 1], DescribeUserScramCredentials(50): 0 [usable: 0], AlterUserScramCredentials(51): 0 [usable: 0], DescribeQuorum(55): UNSUPPORTED, AlterPartition(56): 0 to 3 [usable: 3], UpdateFeatures(57): 0 to 1 [usable: 1], Envelope(58): 0 [usable: 0], DescribeCluster(60): 0 to 1 [usable: 1], DescribeProducers(61): 0 [usable: 0], UnregisterBroker(64): UNSUPPORTED, DescribeTransactions(65): 0 [usable: 0], ListTransactions(66): 0 [usable: 0], AllocateProducerIds(67): 0 [usable: 0], ConsumerGroupHeartbeat(68): 0 [usable: 0], ConsumerGroupDescribe(69): UNSUPPORTED, GetTelemetrySubscriptions(71): UNSUPPORTED, PushTelemetry(72): UNSUPPORTED, ListClientMetricsResources(74): UNSUPPORTED).
+2024-06-07T13:31:09.403+05:30 DEBUG 12164 --- [| adminclient-1] o.a.k.clients.admin.KafkaAdminClient     : [AdminClient clientId=adminclient-1] Sending MetadataRequestData(topics=[], allowAutoTopicCreation=true, includeClusterAuthorizedOperations=false, includeTopicAuthorizedOperations=false) to localhost:9092 (id: -1 rack: null). correlationId=1, timeoutMs=29739
+2024-06-07T13:31:09.404+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Sending METADATA request with header RequestHeader(apiKey=METADATA, apiVersion=12, clientId=adminclient-1, correlationId=1, headerVersion=2) and timeout 29739 to node -1: MetadataRequestData(topics=[], allowAutoTopicCreation=true, includeClusterAuthorizedOperations=false, includeTopicAuthorizedOperations=false)
+2024-06-07T13:31:09.407+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Received METADATA response from node -1 for request with header RequestHeader(apiKey=METADATA, apiVersion=12, clientId=adminclient-1, correlationId=1, headerVersion=2): MetadataResponseData(throttleTimeMs=0, brokers=[MetadataResponseBroker(nodeId=0, host='host.docker.internal', port=9092, rack=null)], clusterId='By_sPz1CTxiKZ1kB0hvJ6A', controllerId=0, topics=[], clusterAuthorizedOperations=-2147483648)
+2024-06-07T13:31:09.409+05:30 DEBUG 12164 --- [| adminclient-1] o.a.k.c.a.i.AdminMetadataManager         : [AdminClient clientId=adminclient-1] Updating cluster metadata to Cluster(id = By_sPz1CTxiKZ1kB0hvJ6A, nodes = [host.docker.internal:9092 (id: 0 rack: null)], partitions = [], controller = host.docker.internal:9092 (id: 0 rack: null))
+2024-06-07T13:31:09.411+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.ClientUtils     : Resolved host host.docker.internal as 192.168.29.159
+2024-06-07T13:31:09.411+05:30 DEBUG 12164 --- [| adminclient-1] o.a.k.clients.ClusterConnectionStates    : [AdminClient clientId=adminclient-1] Resolved host host.docker.internal to addresses [host.docker.internal/192.168.29.159]
+2024-06-07T13:31:09.411+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Initiating connection to node host.docker.internal:9092 (id: 0 rack: null) using address host.docker.internal/192.168.29.159
+2024-06-07T13:31:09.417+05:30 DEBUG 12164 --- [| adminclient-1] o.apache.kafka.common.network.Selector   : [AdminClient clientId=adminclient-1] Created socket with SO_RCVBUF = 65536, SO_SNDBUF = 131072, SO_TIMEOUT = 0 to node 0
+2024-06-07T13:31:09.417+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Completed connection to node 0. Fetching API versions.
+2024-06-07T13:31:09.417+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Initiating API versions fetch from node 0.
+2024-06-07T13:31:09.417+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Sending API_VERSIONS request with header RequestHeader(apiKey=API_VERSIONS, apiVersion=3, clientId=adminclient-1, correlationId=2, headerVersion=2) and timeout 3600000 to node 0: ApiVersionsRequestData(clientSoftwareName='apache-kafka-java', clientSoftwareVersion='3.7.0')
+2024-06-07T13:31:09.419+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Received API_VERSIONS response from node 0 for request with header RequestHeader(apiKey=API_VERSIONS, apiVersion=3, clientId=adminclient-1, correlationId=2, headerVersion=2): ApiVersionsResponseData(errorCode=0, apiKeys=[ApiVersion(apiKey=0, minVersion=0, maxVersion=10), ApiVersion(apiKey=1, minVersion=0, maxVersion=16), ApiVersion(apiKey=2, minVersion=0, maxVersion=8), ApiVersion(apiKey=3, minVersion=0, maxVersion=12), ApiVersion(apiKey=4, minVersion=0, maxVersion=7), ApiVersion(apiKey=5, minVersion=0, maxVersion=4), ApiVersion(apiKey=6, minVersion=0, maxVersion=8), ApiVersion(apiKey=7, minVersion=0, maxVersion=3), ApiVersion(apiKey=8, minVersion=0, maxVersion=9), ApiVersion(apiKey=9, minVersion=0, maxVersion=9), ApiVersion(apiKey=10, minVersion=0, maxVersion=4), ApiVersion(apiKey=11, minVersion=0, maxVersion=9), ApiVersion(apiKey=12, minVersion=0, maxVersion=4), ApiVersion(apiKey=13, minVersion=0, maxVersion=5), ApiVersion(apiKey=14, minVersion=0, maxVersion=5), ApiVersion(apiKey=15, minVersion=0, maxVersion=5), ApiVersion(apiKey=16, minVersion=0, maxVersion=4), ApiVersion(apiKey=17, minVersion=0, maxVersion=1), ApiVersion(apiKey=18, minVersion=0, maxVersion=3), ApiVersion(apiKey=19, minVersion=0, maxVersion=7), ApiVersion(apiKey=20, minVersion=0, maxVersion=6), ApiVersion(apiKey=21, minVersion=0, maxVersion=2), ApiVersion(apiKey=22, minVersion=0, maxVersion=4), ApiVersion(apiKey=23, minVersion=0, maxVersion=4), ApiVersion(apiKey=24, minVersion=0, maxVersion=4), ApiVersion(apiKey=25, minVersion=0, maxVersion=3), ApiVersion(apiKey=26, minVersion=0, maxVersion=3), ApiVersion(apiKey=27, minVersion=0, maxVersion=1), ApiVersion(apiKey=28, minVersion=0, maxVersion=3), ApiVersion(apiKey=29, minVersion=0, maxVersion=3), ApiVersion(apiKey=30, minVersion=0, maxVersion=3), ApiVersion(apiKey=31, minVersion=0, maxVersion=3), ApiVersion(apiKey=32, minVersion=0, maxVersion=4), ApiVersion(apiKey=33, minVersion=0, maxVersion=2), ApiVersion(apiKey=34, minVersion=0, maxVersion=2), ApiVersion(apiKey=35, minVersion=0, maxVersion=4), ApiVersion(apiKey=36, minVersion=0, maxVersion=2), ApiVersion(apiKey=37, minVersion=0, maxVersion=3), ApiVersion(apiKey=38, minVersion=0, maxVersion=3), ApiVersion(apiKey=39, minVersion=0, maxVersion=2), ApiVersion(apiKey=40, minVersion=0, maxVersion=2), ApiVersion(apiKey=41, minVersion=0, maxVersion=3), ApiVersion(apiKey=42, minVersion=0, maxVersion=2), ApiVersion(apiKey=43, minVersion=0, maxVersion=2), ApiVersion(apiKey=44, minVersion=0, maxVersion=1), ApiVersion(apiKey=45, minVersion=0, maxVersion=0), ApiVersion(apiKey=46, minVersion=0, maxVersion=0), ApiVersion(apiKey=47, minVersion=0, maxVersion=0), ApiVersion(apiKey=48, minVersion=0, maxVersion=1), ApiVersion(apiKey=49, minVersion=0, maxVersion=1), ApiVersion(apiKey=50, minVersion=0, maxVersion=0), ApiVersion(apiKey=51, minVersion=0, maxVersion=0), ApiVersion(apiKey=56, minVersion=0, maxVersion=3), ApiVersion(apiKey=57, minVersion=0, maxVersion=1), ApiVersion(apiKey=58, minVersion=0, maxVersion=0), ApiVersion(apiKey=60, minVersion=0, maxVersion=1), ApiVersion(apiKey=61, minVersion=0, maxVersion=0), ApiVersion(apiKey=65, minVersion=0, maxVersion=0), ApiVersion(apiKey=66, minVersion=0, maxVersion=0), ApiVersion(apiKey=67, minVersion=0, maxVersion=0), ApiVersion(apiKey=68, minVersion=0, maxVersion=0)], throttleTimeMs=0, supportedFeatures=[], finalizedFeaturesEpoch=0, finalizedFeatures=[], zkMigrationReady=false)
+2024-06-07T13:31:09.420+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node 0 has finalized features epoch: 0, finalized features: [], supported features: [], ZK migration ready: false, API versions: (Produce(0): 0 to 10 [usable: 10], Fetch(1): 0 to 16 [usable: 16], ListOffsets(2): 0 to 8 [usable: 8], Metadata(3): 0 to 12 [usable: 12], LeaderAndIsr(4): 0 to 7 [usable: 7], StopReplica(5): 0 to 4 [usable: 4], UpdateMetadata(6): 0 to 8 [usable: 8], ControlledShutdown(7): 0 to 3 [usable: 3], OffsetCommit(8): 0 to 9 [usable: 9], OffsetFetch(9): 0 to 9 [usable: 9], FindCoordinator(10): 0 to 4 [usable: 4], JoinGroup(11): 0 to 9 [usable: 9], Heartbeat(12): 0 to 4 [usable: 4], LeaveGroup(13): 0 to 5 [usable: 5], SyncGroup(14): 0 to 5 [usable: 5], DescribeGroups(15): 0 to 5 [usable: 5], ListGroups(16): 0 to 4 [usable: 4], SaslHandshake(17): 0 to 1 [usable: 1], ApiVersions(18): 0 to 3 [usable: 3], CreateTopics(19): 0 to 7 [usable: 7], DeleteTopics(20): 0 to 6 [usable: 6], DeleteRecords(21): 0 to 2 [usable: 2], InitProducerId(22): 0 to 4 [usable: 4], OffsetForLeaderEpoch(23): 0 to 4 [usable: 4], AddPartitionsToTxn(24): 0 to 4 [usable: 4], AddOffsetsToTxn(25): 0 to 3 [usable: 3], EndTxn(26): 0 to 3 [usable: 3], WriteTxnMarkers(27): 0 to 1 [usable: 1], TxnOffsetCommit(28): 0 to 3 [usable: 3], DescribeAcls(29): 0 to 3 [usable: 3], CreateAcls(30): 0 to 3 [usable: 3], DeleteAcls(31): 0 to 3 [usable: 3], DescribeConfigs(32): 0 to 4 [usable: 4], AlterConfigs(33): 0 to 2 [usable: 2], AlterReplicaLogDirs(34): 0 to 2 [usable: 2], DescribeLogDirs(35): 0 to 4 [usable: 4], SaslAuthenticate(36): 0 to 2 [usable: 2], CreatePartitions(37): 0 to 3 [usable: 3], CreateDelegationToken(38): 0 to 3 [usable: 3], RenewDelegationToken(39): 0 to 2 [usable: 2], ExpireDelegationToken(40): 0 to 2 [usable: 2], DescribeDelegationToken(41): 0 to 3 [usable: 3], DeleteGroups(42): 0 to 2 [usable: 2], ElectLeaders(43): 0 to 2 [usable: 2], IncrementalAlterConfigs(44): 0 to 1 [usable: 1], AlterPartitionReassignments(45): 0 [usable: 0], ListPartitionReassignments(46): 0 [usable: 0], OffsetDelete(47): 0 [usable: 0], DescribeClientQuotas(48): 0 to 1 [usable: 1], AlterClientQuotas(49): 0 to 1 [usable: 1], DescribeUserScramCredentials(50): 0 [usable: 0], AlterUserScramCredentials(51): 0 [usable: 0], DescribeQuorum(55): UNSUPPORTED, AlterPartition(56): 0 to 3 [usable: 3], UpdateFeatures(57): 0 to 1 [usable: 1], Envelope(58): 0 [usable: 0], DescribeCluster(60): 0 to 1 [usable: 1], DescribeProducers(61): 0 [usable: 0], UnregisterBroker(64): UNSUPPORTED, DescribeTransactions(65): 0 [usable: 0], ListTransactions(66): 0 [usable: 0], AllocateProducerIds(67): 0 [usable: 0], ConsumerGroupHeartbeat(68): 0 [usable: 0], ConsumerGroupDescribe(69): UNSUPPORTED, GetTelemetrySubscriptions(71): UNSUPPORTED, PushTelemetry(72): UNSUPPORTED, ListClientMetricsResources(74): UNSUPPORTED).
+2024-06-07T13:31:09.421+05:30 DEBUG 12164 --- [| adminclient-1] o.a.k.clients.admin.KafkaAdminClient     : [AdminClient clientId=adminclient-1] Sending MetadataRequestData(topics=[MetadataRequestTopic(topicId=AAAAAAAAAAAAAAAAAAAAAA, name='topic-name')], allowAutoTopicCreation=false, includeClusterAuthorizedOperations=false, includeTopicAuthorizedOperations=false) to host.docker.internal:9092 (id: 0 rack: null). correlationId=3, timeoutMs=29987
+2024-06-07T13:31:09.422+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Sending METADATA request with header RequestHeader(apiKey=METADATA, apiVersion=12, clientId=adminclient-1, correlationId=3, headerVersion=2) and timeout 29987 to node 0: MetadataRequestData(topics=[MetadataRequestTopic(topicId=AAAAAAAAAAAAAAAAAAAAAA, name='topic-name')], allowAutoTopicCreation=false, includeClusterAuthorizedOperations=false, includeTopicAuthorizedOperations=false)
+2024-06-07T13:31:09.424+05:30 DEBUG 12164 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Received METADATA response from node 0 for request with header RequestHeader(apiKey=METADATA, apiVersion=12, clientId=adminclient-1, correlationId=3, headerVersion=2): MetadataResponseData(throttleTimeMs=0, brokers=[MetadataResponseBroker(nodeId=0, host='host.docker.internal', port=9092, rack=null)], clusterId='By_sPz1CTxiKZ1kB0hvJ6A', controllerId=0, topics=[MetadataResponseTopic(errorCode=0, name='topic-name', topicId=8hl4e-gzRvaW-n7MicrhHg, isInternal=false, partitions=[MetadataResponsePartition(errorCode=0, partitionIndex=0, leaderId=0, leaderEpoch=0, replicaNodes=[0], isrNodes=[0], offlineReplicas=[])], topicAuthorizedOperations=-2147483648)], clusterAuthorizedOperations=-2147483648)
+2024-06-07T13:31:09.431+05:30 DEBUG 12164 --- [           main] o.a.k.clients.admin.KafkaAdminClient     : [AdminClient clientId=adminclient-1] Initiating close operation.
+2024-06-07T13:31:09.431+05:30 DEBUG 12164 --- [           main] o.a.k.clients.admin.KafkaAdminClient     : [AdminClient clientId=adminclient-1] Waiting for the I/O thread to exit. Hard shutdown in 10000 ms.
+2024-06-07T13:31:09.431+05:30  INFO 12164 --- [| adminclient-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for adminclient-1 unregistered
+2024-06-07T13:31:09.438+05:30  INFO 12164 --- [| adminclient-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2024-06-07T13:31:09.438+05:30  INFO 12164 --- [| adminclient-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2024-06-07T13:31:09.438+05:30  INFO 12164 --- [| adminclient-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2024-06-07T13:31:09.438+05:30 DEBUG 12164 --- [| adminclient-1] o.a.k.clients.admin.KafkaAdminClient     : [AdminClient clientId=adminclient-1] Exiting AdminClientRunnable thread.
+2024-06-07T13:31:09.439+05:30 DEBUG 12164 --- [           main] o.a.k.clients.admin.KafkaAdminClient     : [AdminClient clientId=adminclient-1] Kafka admin client closed.
+2024-06-07T13:31:09.458+05:30  INFO 12164 --- [           main] c.g.k.KafkaProducerApplication           : Started KafkaProducerApplication in 1.821 seconds (process running for 2.363)
+2024-06-07T13:31:09.478+05:30  INFO 12164 --- [           main] o.a.k.clients.producer.ProducerConfig    : ProducerConfig values: 
+	acks = -1
+	auto.include.jmx.reporter = true
+	batch.size = 16384
+	bootstrap.servers = [localhost:9092]
+	buffer.memory = 33554432
+	client.dns.lookup = use_all_dns_ips
+	client.id = producer-1
+	compression.type = none
+	connections.max.idle.ms = 540000
+	delivery.timeout.ms = 120000
+	enable.idempotence = true
+	enable.metrics.push = true
+	interceptor.classes = []
+	key.serializer = class org.apache.kafka.common.serialization.StringSerializer
+	linger.ms = 0
+	max.block.ms = 60000
+	max.in.flight.requests.per.connection = 5
+	max.request.size = 1048576
+	metadata.max.age.ms = 300000
+	metadata.max.idle.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partitioner.adaptive.partitioning.enable = true
+	partitioner.availability.timeout.ms = 0
+	partitioner.class = null
+	partitioner.ignore.keys = false
+	receive.buffer.bytes = 32768
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	transaction.timeout.ms = 60000
+	transactional.id = null
+	value.serializer = class org.springframework.kafka.support.serializer.JsonSerializer
+
+2024-06-07T13:31:09.504+05:30  INFO 12164 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2024-06-07T13:31:09.510+05:30  INFO 12164 --- [           main] o.a.k.clients.producer.KafkaProducer     : [Producer clientId=producer-1] Closing the Kafka producer with timeoutMillis = 0 ms.
+2024-06-07T13:31:09.510+05:30 DEBUG 12164 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : removing kafka metric : MetricName [name=flush-time-ns-total, group=producer-metrics, description=Total time producer has spent in flush in nanoseconds., tags={client-id=producer-1}]
+2024-06-07T13:31:09.511+05:30 DEBUG 12164 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : removing kafka metric : MetricName [name=txn-init-time-ns-total, group=producer-metrics, description=Total time producer has spent in initTransactions in nanoseconds., tags={client-id=producer-1}]
+2024-06-07T13:31:09.511+05:30 DEBUG 12164 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : removing kafka metric : MetricName [name=txn-begin-time-ns-total, group=producer-metrics, description=Total time producer has spent in beginTransaction in nanoseconds., tags={client-id=producer-1}]
+2024-06-07T13:31:09.511+05:30 DEBUG 12164 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : removing kafka metric : MetricName [name=txn-send-offsets-time-ns-total, group=producer-metrics, description=Total time producer has spent in sendOffsetsToTransaction in nanoseconds., tags={client-id=producer-1}]
+2024-06-07T13:31:09.512+05:30 DEBUG 12164 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : removing kafka metric : MetricName [name=txn-commit-time-ns-total, group=producer-metrics, description=Total time producer has spent in commitTransaction in nanoseconds., tags={client-id=producer-1}]
+2024-06-07T13:31:09.512+05:30 DEBUG 12164 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : removing kafka metric : MetricName [name=txn-abort-time-ns-total, group=producer-metrics, description=Total time producer has spent in abortTransaction in nanoseconds., tags={client-id=producer-1}]
+2024-06-07T13:31:09.512+05:30 DEBUG 12164 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : removing kafka metric : MetricName [name=metadata-wait-time-ns-total, group=producer-metrics, description=Total time producer has spent waiting on topic metadata in nanoseconds., tags={client-id=producer-1}]
+2024-06-07T13:31:09.512+05:30  INFO 12164 --- [           main] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2024-06-07T13:31:09.512+05:30  INFO 12164 --- [           main] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2024-06-07T13:31:09.512+05:30  INFO 12164 --- [           main] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2024-06-07T13:31:09.512+05:30 DEBUG 12164 --- [           main] o.a.k.c.t.i.ClientTelemetryReporter      : Stopping ClientTelemetryReporter
+2024-06-07T13:31:09.512+05:30 DEBUG 12164 --- [           main] o.a.k.c.t.i.ClientTelemetryReporter      : close telemetry sender for client telemetry reporter instance
+2024-06-07T13:31:09.512+05:30 DEBUG 12164 --- [           main] o.a.k.c.t.i.ClientTelemetryReporter      : Setting telemetry state from SUBSCRIPTION_NEEDED to TERMINATED
+2024-06-07T13:31:09.513+05:30  INFO 12164 --- [           main] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2024-06-07T13:31:09.513+05:30 DEBUG 12164 --- [           main] o.a.k.c.t.i.ClientTelemetryReporter      : Stopping ClientTelemetryReporter
+2024-06-07T13:31:09.513+05:30 DEBUG 12164 --- [           main] o.a.k.c.t.i.ClientTelemetryReporter      : close telemetry sender for client telemetry reporter instance
+2024-06-07T13:31:09.513+05:30 DEBUG 12164 --- [           main] o.a.k.c.t.i.ClientTelemetryReporter      : Ignoring subsequent close
+2024-06-07T13:31:09.513+05:30  INFO 12164 --- [           main] o.a.kafka.common.utils.AppInfoParser     : App info kafka.producer for producer-1 unregistered
+2024-06-07T13:31:09.513+05:30 DEBUG 12164 --- [           main] o.a.k.clients.producer.KafkaProducer     : [Producer clientId=producer-1] Kafka producer has been closed
+2024-06-07T13:31:09.516+05:30  INFO 12164 --- [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-06-07T13:31:09.530+05:30 ERROR 12164 --- [           main] o.s.boot.SpringApplication               : Application run failed
+
+org.apache.kafka.common.KafkaException: Failed to construct kafka producer
