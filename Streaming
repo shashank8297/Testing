@@ -607,3 +607,183 @@ kafka-consumer/
 ```
 
 With these `pom.xml` files and the configurations provided earlier, you should have a complete setup for the Kafka producer and consumer applications in Spring Boot.
+
+
+kafka Common
+
+
+
+To create the `kafka-common` module, you need to follow these steps:
+
+1. **Create the Project Directory Structure**
+2. **Create the `pom.xml` for `kafka-common`**
+3. **Add the Kafka Configuration Class**
+
+### Step 1: Create the Project Directory Structure
+
+Create the following directory structure:
+
+```
+kafka-common/
+├── pom.xml
+└── src
+    └── main
+        └── java
+            └── com
+                └── example
+                    └── kafka
+                        └── common
+                            └── KafkaConfig.java
+```
+
+### Step 2: Create the `pom.xml` for `kafka-common`
+
+Create the `pom.xml` file inside the `kafka-common` directory with the following content:
+
+#### `kafka-common/pom.xml`
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>kafka-common</artifactId>
+    <version>1.0.0</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+### Step 3: Add the Kafka Configuration Class
+
+Create the `KafkaConfig.java` file inside the `src/main/java/com/example/kafka/common` directory with the following content:
+
+#### `kafka-common/src/main/java/com/example/kafka/common/KafkaConfig.java`
+```java
+package com.example.kafka.common;
+
+import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.kafka.support.serializer.JsonSerializer;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@EnableKafka
+@Configuration
+public class KafkaConfig {
+
+    @Bean
+    public NewTopic topic() {
+        return new NewTopic("topic-name", 1, (short) 1);
+    }
+
+    @Bean
+    public ProducerFactory<String, String> producerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(config);
+    }
+
+    @Bean
+    public KafkaTemplate<String, String> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
+    }
+
+    @Bean
+    public ConsumerFactory<String, String> consumerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG, "group_id");
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class.getName());
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class.getName());
+        return new DefaultKafkaConsumerFactory<>(config);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        return factory;
+    }
+}
+```
+
+### Building `kafka-common`
+
+1. **Navigate to the `kafka-common` Directory**:
+   ```bash
+   cd kafka-common
+   ```
+
+2. **Build the `kafka-common` Module**:
+   ```bash
+   mvn clean install
+   ```
+
+This will install the `kafka-common` module into your local Maven repository, making it available for the `kafka-producer` and `kafka-consumer` applications.
+
+### Integrating `kafka-common` in Producer and Consumer
+
+Ensure that your `kafka-producer` and `kafka-consumer` `pom.xml` files include the dependency on `kafka-common` as shown previously:
+
+#### `kafka-producer/pom.xml`
+```xml
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>kafka-common</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+#### `kafka-consumer/pom.xml`
+```xml
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>kafka-common</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+### Building and Running Producer and Consumer
+
+1. **Build the Producer**:
+   ```bash
+   cd kafka-producer
+   mvn clean install
+   java -jar target/kafka-producer-1.0.0.jar
+   ```
+
+2. **Build the Consumer**:
+   ```bash
+   cd kafka-consumer
+   mvn clean install
+   java -jar target/kafka-consumer-1.0.0.jar
+   ```
+
+This setup ensures that both the producer and consumer applications use the shared Kafka configuration from the `kafka-common` module, promoting consistency and reducing duplication.
