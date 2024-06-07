@@ -1,0 +1,207 @@
+Sure, here's a complete example of a Kafka producer application without using a common Kafka module. This example includes the necessary configuration and a simple producer that sends messages to a Kafka topic.
+
+### Project Structure
+```
+kafka-producer
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── example
+│   │   │           └── producer
+│   │   │               ├── KafkaConfig.java
+│   │   │               ├── KafkaProducerApplication.java
+│   │   │               ├── MessageProducer.java
+│   │   │               └── Message.java
+│   │   └── resources
+│   │       └── application.properties
+└── pom.xml
+```
+
+### `pom.xml`
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://www.maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.0</version>
+        <relativePath/>
+    </parent>
+    <groupId>com.example</groupId>
+    <artifactId>kafka-producer</artifactId>
+    <version>1.0.0</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+### `application.properties`
+```properties
+spring.kafka.bootstrap-servers=localhost:9092
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
+```
+
+### `KafkaConfig.java`
+```java
+package com.example.producer;
+
+import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.serializer.JsonSerializer;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Configuration
+public class KafkaConfig {
+
+    @Bean
+    public NewTopic topic() {
+        return new NewTopic("topic-name", 1, (short) 1);
+    }
+
+    @Bean
+    public ProducerFactory<String, String> producerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(config);
+    }
+
+    @Bean
+    public KafkaTemplate<String, String> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
+    }
+}
+```
+
+### `KafkaProducerApplication.java`
+```java
+package com.example.producer;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.kafka.core.KafkaTemplate;
+
+@SpringBootApplication
+public class KafkaProducerApplication {
+
+    public static void main(String[] args) {
+        ApplicationContext context = SpringApplication.run(KafkaProducerApplication.class, args);
+        MessageProducer producer = context.getBean(MessageProducer.class);
+        producer.sendMessage();
+    }
+}
+```
+
+### `MessageProducer.java`
+```java
+package com.example.producer;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
+
+@Service
+public class MessageProducer {
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    public void sendMessage() {
+        for (int i = 0; i < 10; i++) {
+            kafkaTemplate.send("topic-name", "key-" + i, "Message " + i);
+        }
+    }
+}
+```
+
+### `Message.java`
+This class is used to represent the message being sent to Kafka. If your message is more complex and you need to serialize it as JSON, you can define it like this:
+
+```java
+package com.example.producer;
+
+public class Message {
+    private String key;
+    private String content;
+
+    public Message(String key, String content) {
+        this.key = key;
+        this.content = content;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+}
+```
+
+### Instructions to Run
+
+1. **Start ZooKeeper**:
+    ```sh
+    bin/zookeeper-server-start.sh config/zookeeper.properties
+    ```
+
+2. **Start Kafka**:
+    ```sh
+    bin/kafka-server-start.sh config/server.properties
+    ```
+
+3. **Build the Producer Application**:
+    ```sh
+    cd kafka-producer
+    mvn clean install
+    ```
+
+4. **Run the Producer Application**:
+    ```sh
+    java -jar target/kafka-producer-1.0.0.jar
+    ```
+
+This should start the producer application, which will send messages to the Kafka topic named `topic-name`. Ensure that your Kafka server is running on `localhost:9092`. If there are any configuration issues or errors, the detailed logging enabled earlier will help diagnose the problem.
