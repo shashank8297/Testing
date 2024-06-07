@@ -1,44 +1,92 @@
-Sure, here's an HTML file that you can use to view Kafka messages produced by your Spring Boot application in the frontend:
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Kafka WebSocket Test</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+		<script>
+			var stompClient = null;
+			function connect() 
+			{
+				console.log("2-1");
+				var socket = new SockJS('/ws');            
+				stompClient = Stomp.over(socket);            
+				stompClient.connect({}, function (frame) 
+				{                 
+					console.log('Connected: ' + frame); 
+					console.log("C-1");
+					stompClient.subscribe('/topic/messages', function (message) 
+					{             
+						console.log("C-2");        
+						showMessage(message.body);                 
+					});            
+				});         
+			}          
+			function sendMessage() {             
+				console.log("1");
+				var message = document.getElementById('message').value;    
+				console.log("2");
+				stompClient.send("/app/sendMessage", {}, message);     
+				console.log("3");    
+			}          
+			function showMessage(message) {             
+				console.log("SHM");
+				var messages = document.getElementById('messages');             
+				var messageElement = document.createElement('div');             
+				messageElement.appendChild(document.createTextNode(message));             
+				messages.appendChild(messageElement);         
+			}          
+			console.log("end-fun");
+			window.onload = connect;
+		</script> 
+	</head> 
+	<body>    
+		<div>         
+			<input type="text" id="message" />         
+			<button onclick="sendMessage()">Send</button>     
+		</div>
+		<div id="messages"></div> 
+	</body> 
+</html> 
 
-```html
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Kafka Message Viewer</title>
-</head>
-<body>
-    <h1>Kafka Messages</h1>
-    <ul id="message-list"></ul>
+	<head>
+		<meta charset="UTF-8">
+		<title>Kafka Message Viewer</title>
+	</head>
+	<body>
+		<h1>Kafka Messages</h1>
+			<ul id="message-list"></ul>
 
-    <script>
-        var socket = new WebSocket("ws://localhost:8080/websocket");
+			<script>
+				var socket = new WebSocket("ws://localhost:8080/ws");
 
-        socket.onopen = function(event) {
-            console.log("WebSocket connection established.");
-        };
+				console.log(socket);
+    			socket.onopen = function(event) {
+        			console.log("WebSocket connection established.");
+    			};
 
-        socket.onmessage = function(event) {
-            var messageList = document.getElementById('message-list');
-            var listItem = document.createElement('li');
-            listItem.textContent = event.data;
-            messageList.appendChild(listItem);
-        };
+    			socket.onmessage = function(event) {
+        			var messageList = document.getElementById('message-list');
+        			var listItem = document.createElement('li');
+        			listItem.textContent = event.data;
+        			messageList.appendChild(listItem);
+			    };
 
-        socket.onclose = function(event) {
-            console.log("WebSocket connection closed.");
-        };
+			    socket.onclose = function(event) {
+        			console.log("WebSocket connection closed.");
+    			};
 
-        socket.onerror = function(event) {
-            console.error("WebSocket error:", event);
-        };
-    </script>
-</body>
+			    socket.onerror = function(event) {
+        			console.error("WebSocket error:", event);
+    			};
+		</script>
+	</body>
 </html>
-```
-
-This HTML file establishes a WebSocket connection to `ws://localhost:8080/websocket`, assuming your Spring Boot application is running on the localhost at port 8080. Adjust the WebSocket URL (`ws://localhost:8080/websocket`) to match your actual WebSocket endpoint if it's different.
-
-When a message is received over the WebSocket connection, it's appended to an unordered list (`<ul>`) in the HTML document, allowing you to view Kafka messages produced by your Spring Boot application in real-time on the webpage.
-
-Save this HTML file and open it in a web browser to view Kafka messages in the frontend. Make sure your Spring Boot application (Kafka producer) is running and producing messages to the Kafka topic that the WebSocket endpoint is listening to.
