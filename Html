@@ -90,3 +90,38 @@
 		</script>
 	</body>
 </html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kafka Message Viewer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+    <h1>Kafka Messages</h1>
+    <ul id="message-list"></ul>
+
+    <script>
+        var stompClient = null;
+        function connect() {
+            var socket = new SockJS('/ws');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/messages', function (message) {
+                    var messageList = document.getElementById('message-list');
+                    var listItem = document.createElement('li');
+                    listItem.textContent = message.body;
+                    messageList.appendChild(listItem);
+                });
+            });
+        }
+
+        connect();
+    </script>
+</body>
+</html>
