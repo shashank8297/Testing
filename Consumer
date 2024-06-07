@@ -198,3 +198,45 @@ public class Message {
 You can include this class in your Spring Boot application to represent the content of the Kafka messages being consumed. If your Kafka messages have additional fields such as timestamps, keys, or any other metadata, you can extend this class to include those fields as well. Adjust the class according to your specific message structure and requirements.
 
 This setup will allow your Kafka consumer to receive messages from the Kafka topic `"topic-name"` and push them to the frontend through a WebSocket connection. The frontend can then display these messages in real-time. Make sure to replace `"topic-name"` and `"my-group-id"` with your actual Kafka topic and consumer group ID. Adjust WebSocket endpoint URLs and message destinations as needed.
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kafka Message Viewer</title>
+    <!-- Include STOMP and SockJS JavaScript libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1"></script>
+</head>
+<body>
+    <h1>Kafka Messages</h1>
+    <ul id="message-list"></ul>
+
+    <script>
+        var stompClient = null;
+
+        function connect() {
+            var socket = new SockJS('/websocket');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/messages', function (message) {
+                    showMessage(JSON.parse(message.body));
+                });
+            });
+        }
+
+        function showMessage(message) {
+            var messageList = document.getElementById('message-list');
+            var listItem = document.createElement('li');
+            listItem.appendChild(document.createTextNode(message.content));
+            messageList.appendChild(listItem);
+        }
+
+        connect();
+    </script>
+</body>
+</html>
