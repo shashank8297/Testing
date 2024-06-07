@@ -449,3 +449,161 @@ kafka-consumer/
 ```
 
 These properties or YAML files provide the necessary configurations for Spring Kafka and WebSocket setup. Ensure these files are placed in the `src/main/resources` directory of each respective module.
+
+
+Sure, here are the `pom.xml` files for both the `kafka-producer` and `kafka-consumer` applications.
+
+### `kafka-producer` - `pom.xml`
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.example</groupId>
+    <artifactId>kafka-producer</artifactId>
+    <version>1.0.0</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>kafka-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+### `kafka-consumer` - `pom.xml`
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.example</groupId>
+    <artifactId>kafka-consumer</artifactId>
+    <version>1.0.0</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>kafka-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+### Notes
+1. **Parent POM**: Both `pom.xml` files inherit from the `spring-boot-starter-parent` POM to simplify dependency management.
+2. **Dependencies**:
+   - `spring-boot-starter`: Core Spring Boot dependencies.
+   - `spring-kafka`: Spring Kafka integration.
+   - `kafka-common`: Shared Kafka configuration library.
+   - `spring-boot-starter-websocket` (only in consumer): WebSocket support for the consumer application.
+
+3. **Build Plugins**: Both projects use the `spring-boot-maven-plugin` to package the applications as executable JAR files.
+
+### Directory Structure for Reference
+
+#### `kafka-common`
+```
+kafka-common/
+├── pom.xml
+└── src
+    └── main
+        └── java
+            └── com
+                └── example
+                    └── kafka
+                        └── common
+                            └── KafkaConfig.java
+```
+
+#### `kafka-producer`
+```
+kafka-producer/
+├── pom.xml
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── example
+    │   │           └── kafka
+    │   │               └── producer
+    │   │                   └── KafkaProducerApplication.java
+    │   └── resources
+    │       └── application.properties
+    └── test
+        └── java
+```
+
+#### `kafka-consumer`
+```
+kafka-consumer/
+├── pom.xml
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── example
+    │   │           └── kafka
+    │   │               └── consumer
+    │   │                   ├── KafkaConsumerApplication.java
+    │   │                   ├── KafkaConsumerService.java
+    │   │                   ├── WebSocketConfig.java
+    │   │                   └── WebSocketController.java
+    │   ├── resources
+    │   │   └── application.properties
+    │   └── static
+    │       └── index.html
+    └── test
+        └── java
+```
+
+With these `pom.xml` files and the configurations provided earlier, you should have a complete setup for the Kafka producer and consumer applications in Spring Boot.
