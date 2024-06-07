@@ -1,0 +1,44 @@
+Sure, here's an HTML file that you can use to view Kafka messages produced by your Spring Boot application in the frontend:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kafka Message Viewer</title>
+</head>
+<body>
+    <h1>Kafka Messages</h1>
+    <ul id="message-list"></ul>
+
+    <script>
+        var socket = new WebSocket("ws://localhost:8080/websocket");
+
+        socket.onopen = function(event) {
+            console.log("WebSocket connection established.");
+        };
+
+        socket.onmessage = function(event) {
+            var messageList = document.getElementById('message-list');
+            var listItem = document.createElement('li');
+            listItem.textContent = event.data;
+            messageList.appendChild(listItem);
+        };
+
+        socket.onclose = function(event) {
+            console.log("WebSocket connection closed.");
+        };
+
+        socket.onerror = function(event) {
+            console.error("WebSocket error:", event);
+        };
+    </script>
+</body>
+</html>
+```
+
+This HTML file establishes a WebSocket connection to `ws://localhost:8080/websocket`, assuming your Spring Boot application is running on the localhost at port 8080. Adjust the WebSocket URL (`ws://localhost:8080/websocket`) to match your actual WebSocket endpoint if it's different.
+
+When a message is received over the WebSocket connection, it's appended to an unordered list (`<ul>`) in the HTML document, allowing you to view Kafka messages produced by your Spring Boot application in real-time on the webpage.
+
+Save this HTML file and open it in a web browser to view Kafka messages in the frontend. Make sure your Spring Boot application (Kafka producer) is running and producing messages to the Kafka topic that the WebSocket endpoint is listening to.
