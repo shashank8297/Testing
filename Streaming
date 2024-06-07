@@ -1,0 +1,451 @@
+Creating a complete Spring Boot application with Kafka producer and consumer, where the consumer pushes data to the frontend through WebSocket, involves several steps. Below is a structured guide with the required code.
+
+### Project Structure
+1. **Producer Application** (`kafka-producer`)
+2. **Consumer Application** (`kafka-consumer`)
+3. **Shared Library for Kafka Configuration** (`kafka-common`)
+
+### 1. Setting Up Kafka
+Ensure you have Kafka and Zookeeper running on your local machine or a server. You can download Kafka from [Apache Kafka](https://kafka.apache.org/downloads) and follow the instructions to start the services.
+
+### 2. `kafka-common` - Shared Kafka Configuration
+Create a shared library for common Kafka configurations.
+
+**pom.xml**
+```xml
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>kafka-common</artifactId>
+    <version>1.0.0</version>
+</project>
+```
+
+**KafkaConfig.java**
+```java
+package com.example.kafka.common;
+
+import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.kafka.support.serializer.JsonSerializer;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@EnableKafka
+@Configuration
+public class KafkaConfig {
+
+    @Bean
+    public NewTopic topic() {
+        return new NewTopic("topic-name", 1, (short) 1);
+    }
+
+    @Bean
+    public ProducerFactory<String, String> producerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(config);
+    }
+
+    @Bean
+    public KafkaTemplate<String, String> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
+    }
+
+    @Bean
+    public ConsumerFactory<String, String> consumerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG, "group_id");
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class.getName());
+        config.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class.getName());
+        return new DefaultKafkaConsumerFactory<>(config);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        return factory;
+    }
+}
+```
+
+### 3. `kafka-producer` - Kafka Producer Application
+
+**pom.xml**
+```xml
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.0</version>
+    </parent>
+    <groupId>com.example</groupId>
+    <artifactId>kafka-producer</artifactId>
+    <version>1.0.0</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>kafka-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+**KafkaProducerApplication.java**
+```java
+package com.example.kafka.producer;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.kafka.core.KafkaTemplate;
+
+@SpringBootApplication
+public class KafkaProducerApplication implements CommandLineRunner {
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    public static void main(String[] args) {
+        SpringApplication.run(KafkaProducerApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        while (true) {
+            kafkaTemplate.send("topic-name", "Hello, Kafka!");
+            Thread.sleep(1000);
+        }
+    }
+}
+```
+
+### 4. `kafka-consumer` - Kafka Consumer Application
+
+**pom.xml**
+```xml
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.0</version>
+    </parent>
+    <groupId>com.example</groupId>
+    <artifactId>kafka-consumer</artifactId>
+    <version>1.0.0</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>kafka-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+**KafkaConsumerApplication.java**
+```java
+package com.example.kafka.consumer;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@SpringBootApplication
+public class KafkaConsumerApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(KafkaConsumerApplication.class, args);
+    }
+}
+```
+
+**WebSocketConfig.java**
+```java
+package com.example.kafka.consumer;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+
+@Configuration
+@EnableWebSocketMessageBroker
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        config.enableSimpleBroker("/topic");
+        config.setApplicationDestinationPrefixes("/app");
+    }
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/websocket").withSockJS();
+    }
+}
+```
+
+**KafkaConsumerService.java**
+```java
+package com.example.kafka.consumer;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
+
+@Service
+public class KafkaConsumerService {
+
+    @Autowired
+    private SimpMessagingTemplate template;
+
+    @KafkaListener(topics = "topic-name", groupId = "group_id")
+    public void consume(String message) {
+        template.convertAndSend("/topic/messages", message);
+    }
+}
+```
+
+**WebSocketController.java**
+```java
+package com.example.kafka.consumer;
+
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class WebSocketController {
+
+    @MessageMapping("/sendMessage")
+    @SendTo("/topic/messages")
+    public String sendMessage(String message) {
+        return message;
+    }
+}
+```
+
+### 5. Frontend (HTML + JavaScript)
+Create an HTML page to connect to the WebSocket and display messages.
+
+**index.html**
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kafka WebSocket Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+    <h1>Messages from Kafka</h1
+
+
+Sure, let's continue with the `index.html` and the remaining details.
+
+**index.html**
+```html
+<body>
+    <h1>Messages from Kafka</h1>
+    <div id="messages"></div>
+
+    <script type="text/javascript">
+        var socket = new SockJS('/websocket');
+        var stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/messages', function (messageOutput) {
+                showMessage(JSON.parse(messageOutput.body));
+            });
+        });
+
+        function showMessage(message) {
+            var messages = document.getElementById('messages');
+            var messageElement = document.createElement('div');
+            messageElement.appendChild(document.createTextNode(message));
+            messages.appendChild(messageElement);
+        }
+    </script>
+</body>
+</html>
+```
+
+### Summary of the Setup
+
+1. **Kafka Producer**: Continuously sends messages to Kafka.
+2. **Kafka Consumer**: Listens to Kafka messages and sends them to the frontend through a WebSocket.
+3. **Frontend**: Receives messages through the WebSocket and displays them.
+
+### Running the Applications
+
+1. **Start Kafka and Zookeeper**:
+   - Start Zookeeper: `bin/zookeeper-server-start.sh config/zookeeper.properties`
+   - Start Kafka: `bin/kafka-server-start.sh config/server.properties`
+
+2. **Build and Run the Producer**:
+   - Navigate to `kafka-producer` directory and run: `mvn clean install`
+   - Start the application: `java -jar target/kafka-producer-1.0.0.jar`
+
+3. **Build and Run the Consumer**:
+   - Navigate to `kafka-consumer` directory and run: `mvn clean install`
+   - Start the application: `java -jar target/kafka-consumer-1.0.0.jar`
+
+4. **Access the Frontend**:
+   - Open a web browser and navigate to `http://localhost:8080` (assuming the consumer's web server is running on port 8080).
+
+With this setup, the Kafka producer will send messages continuously to the Kafka topic, the Kafka consumer will receive those messages and push them to the frontend via WebSocket, where they will be displayed in real-time.
+
+This is a complete solution that demonstrates the interaction between a Kafka producer, a Kafka consumer, and a frontend using WebSocket.
+
+
+Yes, each Spring Boot application typically includes an `application.properties` or `application.yml` file for configuration. Below are the configurations for the producer and consumer applications.
+
+### `kafka-producer` - `src/main/resources/application.properties`
+```properties
+spring.kafka.bootstrap-servers=localhost:9092
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
+```
+
+### `kafka-consumer` - `src/main/resources/application.properties`
+```properties
+spring.kafka.bootstrap-servers=localhost:9092
+spring.kafka.consumer.group-id=group_id
+spring.kafka.consumer.auto-offset-reset=earliest
+spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+```
+
+If you prefer to use `application.yml` files, here are the equivalents:
+
+### `kafka-producer` - `src/main/resources/application.yml`
+```yaml
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+```
+
+### `kafka-consumer` - `src/main/resources/application.yml`
+```yaml
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: group_id
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+```
+
+### Directory Structure for Reference
+
+#### `kafka-common`
+```
+kafka-common/
+├── pom.xml
+└── src
+    └── main
+        └── java
+            └── com
+                └── example
+                    └── kafka
+                        └── common
+                            └── KafkaConfig.java
+```
+
+#### `kafka-producer`
+```
+kafka-producer/
+├── pom.xml
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── example
+    │   │           └── kafka
+    │   │               └── producer
+    │   │                   └── KafkaProducerApplication.java
+    │   └── resources
+    │       └── application.properties
+    └── test
+        └── java
+```
+
+#### `kafka-consumer`
+```
+kafka-consumer/
+├── pom.xml
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── example
+    │   │           └── kafka
+    │   │               └── consumer
+    │   │                   ├── KafkaConsumerApplication.java
+    │   │                   ├── KafkaConsumerService.java
+    │   │                   ├── WebSocketConfig.java
+    │   │                   └── WebSocketController.java
+    │   ├── resources
+    │   │   └── application.properties
+    │   └── static
+    │       └── index.html
+    └── test
+        └── java
+```
+
+These properties or YAML files provide the necessary configurations for Spring Kafka and WebSocket setup. Ensure these files are placed in the `src/main/resources` directory of each respective module.
