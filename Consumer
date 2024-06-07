@@ -172,10 +172,29 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 ### `Message.java`
 If needed, create a class to represent Kafka messages.
 
+Certainly! Here's a simple `Message` class that you can use to represent Kafka messages in your Spring Boot application:
+
 ```java
 public class Message {
-    // Define message fields if required
+    private String content;
+
+    public Message() {
+    }
+
+    public Message(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
 ```
+
+You can include this class in your Spring Boot application to represent the content of the Kafka messages being consumed. If your Kafka messages have additional fields such as timestamps, keys, or any other metadata, you can extend this class to include those fields as well. Adjust the class according to your specific message structure and requirements.
 
 This setup will allow your Kafka consumer to receive messages from the Kafka topic `"topic-name"` and push them to the frontend through a WebSocket connection. The frontend can then display these messages in real-time. Make sure to replace `"topic-name"` and `"my-group-id"` with your actual Kafka topic and consumer group ID. Adjust WebSocket endpoint URLs and message destinations as needed.
