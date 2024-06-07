@@ -1,0 +1,155 @@
+Sure, here's an updated Spring Boot application with a Kafka consumer that receives messages from Kafka and pushes them to the frontend using WebSocket.
+
+### Project Structure
+```
+kafka-consumer
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── example
+│   │   │           └── consumer
+│   │   │               ├── KafkaConfig.java
+│   │   │               ├── KafkaConsumerApplication.java
+│   │   │               ├── MessageController.java
+│   │   │               ├── Message.java
+│   │   │               └── WebSocketConfig.java
+│   │   └── resources
+│   │       └── application.properties
+└── pom.xml
+```
+
+### `pom.xml`
+Ensure to include the necessary dependencies for Spring Boot, Kafka, and WebSocket.
+
+```xml
+<!-- Add dependencies for Spring Boot, Kafka, and WebSocket -->
+<dependencies>
+    <!-- Spring Boot Starter Web for web development -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <!-- Spring for Apache Kafka to work with Kafka -->
+    <dependency>
+        <groupId>org.springframework.kafka</groupId>
+        <artifactId>spring-kafka</artifactId>
+    </dependency>
+    <!-- Spring Boot Starter for WebSocket support -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-websocket</artifactId>
+    </dependency>
+    <!-- STOMP support for WebSocket -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-stomp</artifactId>
+    </dependency>
+</dependencies>
+```
+
+### `application.properties`
+Configure Kafka and server settings, and WebSocket message broker.
+
+```properties
+# Kafka configuration
+spring.kafka.bootstrap-servers=localhost:9092
+spring.kafka.consumer.group-id=my-group-id
+spring.kafka.consumer.auto-offset-reset=earliest
+
+# WebSocket configuration
+server.port=8080
+
+# Logging level
+logging.level.org.apache.kafka=DEBUG
+logging.level.org.springframework.kafka=DEBUG
+```
+
+### `KafkaConfig.java`
+Configure Kafka beans.
+
+```java
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
+
+@Configuration
+@EnableKafka
+public class KafkaConfig {
+    // Kafka related configurations if any
+}
+```
+
+### `KafkaConsumerApplication.java`
+Main class to run the Spring Boot application.
+
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class KafkaConsumerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(KafkaConsumerApplication.class, args);
+    }
+}
+```
+
+### `MessageController.java`
+Controller class to handle WebSocket messages.
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class MessageController {
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
+    @KafkaListener(topics = "topic-name", groupId = "my-group-id")
+    public void listen(String message) {
+        messagingTemplate.convertAndSend("/topic/messages", message);
+    }
+}
+```
+
+### `WebSocketConfig.java`
+Configure WebSocket endpoints and message brokers.
+
+```java
+import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+
+@Configuration
+@EnableWebSocketMessageBroker
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.enableSimpleBroker("/topic");
+        registry.setApplicationDestinationPrefixes("/app");
+    }
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/websocket").withSockJS();
+    }
+}
+```
+
+### `Message.java`
+If needed, create a class to represent Kafka messages.
+
+```java
+public class Message {
+    // Define message fields if required
+}
+```
+
+This setup will allow your Kafka consumer to receive messages from the Kafka topic `"topic-name"` and push them to the frontend through a WebSocket connection. The frontend can then display these messages in real-time. Make sure to replace `"topic-name"` and `"my-group-id"` with your actual Kafka topic and consumer group ID. Adjust WebSocket endpoint URLs and message destinations as needed.
