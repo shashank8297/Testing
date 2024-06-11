@@ -1,0 +1,319 @@
+{
+    "resourceType": "Bundle",
+    "id": "425ebd56-49e8-4feb-aa8b-18814bae5ae8",
+    "meta": {
+        "tag": [
+            {
+                "code": "DEVICE_DATA"
+            }
+        ]
+    },
+    "type": "collection",
+    "timestamp": "2024-03-11T10:21:19.694+00:00",
+    "entry": [
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "32fb01f0-bf04-4341-936a-c7606f23b021",
+                "extension": [
+                    {
+                        "url": "http://www.gehealthcare.com/fhir/StructureDefinition/observation-sessionId",
+                        "valueString": "b0bd6fda-869f-42d6-81e7-4cd23478812b"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                            "code": "1",
+                            "display": "MDCX_HEART_RATE"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2024-03-11T10:21:19.694+00:00",
+                "method": {
+                    "coding": [
+                        {
+                            "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                            "code": "102",
+                            "display": "No Transducer"
+                        }
+                    ]
+                },
+                "device": {
+                    "reference": "DeviceMetric/df8f555b-74b9-4717-8b9e-2a42d5084c73"
+                },
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                                    "code": "12",
+                                    "display": "MDCX_HEART_RATE_PFC_FHR2"
+                                }
+                            ]
+                        },
+                        "valueSampledData": {
+                            "origin": {
+                                "value": 0
+                            },
+                            "period": 250,
+                            "factor": 1,
+                            "dimensions": 1,
+                            "data": "INOP INOP INOP INOP"
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                                    "code": "13",
+                                    "display": "MDCX_HEART_RATE_SIGNAL_QUALITY_FHR2"
+                                }
+                            ]
+                        },
+                        "valueSampledData": {
+                            "origin": {
+                                "value": 0
+                            },
+                            "period": 250,
+                            "factor": 1,
+                            "dimensions": 1,
+                            "data": "INOP INOP INOP INOP"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "e761c7e5-9992-4895-ba9e-427237bd43f0",
+                "extension": [
+                    {
+                        "url": "http://www.gehealthcare.com/fhir/StructureDefinition/observation-sessionId",
+                        "valueString": "b0bd6fda-869f-42d6-81e7-4cd23478812b"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                            "code": "1",
+                            "display": "MDCX_HEART_RATE"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2024-03-11T10:21:19.694+00:00",
+                "method": {
+                    "coding": [
+                        {
+                            "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                            "code": "102",
+                            "display": "No Transducer"
+                        }
+                    ]
+                },
+                "device": {
+                    "reference": "DeviceMetric/f0b264ef-db02-4b7b-9b21-7ca544f92e8e"
+                },
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                                    "code": "14",
+                                    "display": "MDCX_HEART_RATE_PFC_FHR3"
+                                }
+                            ]
+                        },
+                        "valueSampledData": {
+                            "origin": {
+                                "value": 0
+                            },
+                            "period": 250,
+                            "factor": 1,
+                            "dimensions": 1,
+                            "data": "INOP INOP INOP INOP"
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                                    "code": "15",
+                                    "display": "MDCX_HEART_RATE_SIGNAL_QUALITY_FHR3"
+                                }
+                            ]
+                        },
+                        "valueSampledData": {
+                            "origin": {
+                                "value": 0
+                            },
+                            "period": 250,
+                            "factor": 1,
+                            "dimensions": 1,
+                            "data": "INOP INOP INOP INOP"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "62e522e1-62a4-4890-9343-ae4e18b45283",
+                "extension": [
+                    {
+                        "url": "http://www.gehealthcare.com/fhir/StructureDefinition/observation-sessionId",
+                        "valueString": "b0bd6fda-869f-42d6-81e7-4cd23478812b"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                            "code": "1",
+                            "display": "MDCX_HEART_RATE"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2024-03-11T10:21:19.694+00:00",
+                "method": {
+                    "coding": [
+                        {
+                            "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                            "code": "103",
+                            "display": "Ecg"
+                        }
+                    ]
+                },
+                "device": {
+                    "reference": "DeviceMetric/b4e64873-782a-410d-942b-9008e76528bf"
+                },
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                                    "code": "10",
+                                    "display": "MDCX_HEART_RATE_PFC_FHR1"
+                                }
+                            ]
+                        },
+                        "valueSampledData": {
+                            "origin": {
+                                "value": 0
+                            },
+                            "period": 250,
+                            "factor": 1,
+                            "dimensions": 1,
+                            "data": "147 147 147 147"
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                                    "code": "11",
+                                    "display": "MDCX_HEART_RATE_SIGNAL_QUALITY_FHR1"
+                                }
+                            ]
+                        },
+                        "valueSampledData": {
+                            "origin": {
+                                "value": 0
+                            },
+                            "period": 250,
+                            "factor": 1,
+                            "dimensions": 1,
+                            "data": "ACCEPTABLE ACCEPTABLE ACCEPTABLE ACCEPTABLE"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "5e2d5602-a1b3-4778-aad8-09658d12beb2",
+                "extension": [
+                    {
+                        "url": "http://www.gehealthcare.com/fhir/StructureDefinition/observation-sessionId",
+                        "valueString": "b0bd6fda-869f-42d6-81e7-4cd23478812b"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                            "code": "1",
+                            "display": "MDCX_HEART_RATE"
+                        }
+                    ]
+                },
+                "effectiveDateTime": "2024-03-11T10:21:19.694+00:00",
+                "method": {
+                    "coding": [
+                        {
+                            "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                            "code": "101",
+                            "display": "Ultrasound"
+                        }
+                    ]
+                },
+                "device": {
+                    "reference": "DeviceMetric/2d7510da-7279-4faa-9df1-26f14282db3b"
+                },
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                                    "code": "16",
+                                    "display": "MDCX_HEART_RATE_PFC_MHR"
+                                }
+                            ]
+                        },
+                        "valueSampledData": {
+                            "origin": {
+                                "value": 0
+                            },
+                            "period": 250,
+                            "factor": 1,
+                            "dimensions": 1,
+                            "data": "175 175 175 175"
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "urn:oid:2.16.840.1.113883.4.329.555.1",
+                                    "code": "17",
+                                    "display": "MDCX_HEART_RATE_SIGNAL_QUALITY_MHR"
+                                }
+                            ]
+                        },
+                        "valueSampledData": {
+                            "origin": {
+                                "value": 0
+                            },
+                            "period": 250,
+                            "factor": 1,
+                            "dimensions": 1,
+                            "data": "GOOD GOOD GOOD GOOD"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
